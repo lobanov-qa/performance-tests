@@ -1,0 +1,32 @@
+# pycharm
+.idea
+
+# VS Code
+.vscode/
+.history/
+.continue/
+
+# python
+.venv
+__pycache__
+__pycache__/
+*.py[cod]
+*$py.class
+scripts/__pycache__/
+
+
+# Egg/Script directories
+*.egg-info/
+.eggs/
+*.egg
+build/
+dist/
+
+example/
+
+/gh-pages/
+
+.continue/
+in-memoria.db
+in-memoria-vectors.db/
+.serena/
