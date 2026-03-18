@@ -1,6 +1,5 @@
 from locust import User, between, task
 
-from clients.http.gateway.accounts.schema import OpenDepositAccountResponseSchema
 from clients.http.gateway.locust import GatewayHTTPTaskSet
 from clients.http.gateway.users.schema import CreateUserResponseSchema
 
@@ -52,9 +51,9 @@ class GetAccountsTaskSet(GatewayHTTPTaskSet):
 
 
 
-class GetDocumentsScenarioUser(User):
+class GetAccountsScenarioUser(User):
     """
-    Пользователь Locust, исполняющий  сценарий получения документов.
+    Пользователь Locust, исполняющий  сценарий получения счетов.
     """
     host = "localhost"
     tasks = [GetAccountsTaskSet]
