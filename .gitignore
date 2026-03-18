@@ -23,7 +23,7 @@ build/
 dist/
 
 example/
-
+reports/
 /gh-pages/
 
 .continue/
