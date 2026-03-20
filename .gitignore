@@ -24,6 +24,8 @@ dist/
 
 example/
 reports/
+**/report.html
+**/reports/
 /gh-pages/
 
 .continue/
