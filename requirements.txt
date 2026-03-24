@@ -1,0 +1,8 @@
+email_validator==2.3.0
+Faker==40.11.0
+grpcio==1.78.0
+grpcio-tools==1.78.0
+httpx==0.28.1
+locust==2.43.3
+pydantic==2.12.5
+pydantic-settings==2.13.1

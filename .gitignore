@@ -23,6 +23,11 @@ build/
 dist/
 
 example/
+
+
+dumps
+locust_*.csv
+locust_*.json
 reports/
 **/report.html
 **/reports/
