@@ -7,6 +7,7 @@ on:
         type: 'choice'
         default: './scenarios/grpc/gateway/new_user_get_accounts/v1.0.conf'
         options:
+          # grpc-сценарии
           - ./scenarios/grpc/gateway/existing_user_get_documents/v1.0.conf
           - ./scenarios/grpc/gateway/existing_user_get_operations/v1.0.conf
           - ./scenarios/grpc/gateway/existing_user_issue_virtual_card/v1.0.conf
@@ -15,6 +16,7 @@ on:
           - ./scenarios/grpc/gateway/new_user_get_documents/v1.0.conf
           - ./scenarios/grpc/gateway/new_user_issue_physical_card/v1.0.conf
           - ./scenarios/grpc/gateway/new_user_make_top_up_operation/v1.0.conf
+          # http-сценарии
           - ./scenarios/http/gateway/existing_user_get_documents/v1.0.conf
           - ./scenarios/http/gateway/existing_user_get_operations/v1.0.conf
           - ./scenarios/http/gateway/existing_user_issue_virtual_card/v1.0.conf
@@ -62,16 +64,45 @@ jobs:
       - name: Run load tests and generate HTML report
         run: locust --config=${{ github.event.inputs.SCENARIO }} --html=./reports/${{ github.run_id }}/index.html
 
-      - name: Deploy HTML report to GitHub Pages
-        if: always()
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          keep_files: true
-          publish_dir: reports
-          publish_branch: gh-pages
-
       - name: Stop test services
         if: always()
         run: docker compose -f docker-compose.ci.yaml down -v
         working-directory: performance-qa-engineer-course
+
+      - name: Upload Locust reports
+        if: always()
+        uses: actions/upload-artifact@v8
+        with:
+          name: reports
+          path: reports
+
+  publish-report:
+    if: always()
+    needs: [ run-tests ]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Download Locust reports
+        uses: actions/download-artifact@v8
+        with:
+          name: reports
+          path: reports
+
+      - name: Prepare unified reports structure
+        run: |
+          cp gh-pages/.nojekyll reports
+          
+
+      - name: Deploy HTML report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          keep_files: false
+          publish_dir: reports
+          publish_branch: gh-pages
