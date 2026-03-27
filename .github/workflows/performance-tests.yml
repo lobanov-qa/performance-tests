@@ -64,6 +64,10 @@ jobs:
       - name: Run load tests and generate HTML report
         run: locust --config=${{ github.event.inputs.SCENARIO }} --html=./reports/${{ github.run_id }}/index.html
 
+      - name: Copy index.html to root
+        run: cp ./reports/${{ github.run_id }}/index.html ./reports/
+
+
       - name: Stop test services
         if: always()
         run: docker compose -f docker-compose.ci.yaml down -v
